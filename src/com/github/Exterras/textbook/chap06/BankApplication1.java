@@ -5,7 +5,9 @@ import java.util.Scanner;
 public class BankApplication1 {
 	private static Account1[] accountArray = new Account1[100];
 	private static Scanner s = new Scanner(System.in);
-	private static Account1 act = new Account1();
+//	private static Account1 act = new Account1();
+	
+	private static int count = 0;
 	
 	public static void main(String[] args) {
 		boolean run = true;
@@ -37,24 +39,46 @@ public class BankApplication1 {
 	}
 
 	private static void createAccount() {
+		String s1, s2;
+		int i1;
 		//implement
-	
+		
+		//accountArray[count] = new Account1();
+		 
 		System.out.println("------------"+"\n"+"Account Create"+"\n"+"------------");
 		System.out.print("Account Number : ");
-		act.setAno(s.next());
+		s1 = s.next();
+		//accountArray[count].setAno(s.next());
 		System.out.print("Account Owner : ");
-		act.setOwner(s.next());
+		s2 = s.next();
+		//accountArray[count].setOwner(s.next());
 		System.out.print("First Deposit : ");
-		act.setBalance(s.nextInt());
+		//accountArray[count].setBalance(s.nextInt());
+		i1 = s.nextInt();
 		System.out.println("Account Created!");
+		
+		accountArray[count] = new Account1(s1 , s2, i1 );
+		
+		count++;
 	}
 
 	private static void accountList() {
+		if(count == 0 ){
+			System.out.println("¿¡·¯");
+			return;
+		}
 		//implement
+//		System.out.println("----------"+"\n"+"Account List"+"\n"+"----------");
+//		System.out.println("Account"+"\t\t"+"Owner"+"\t"+"Deposit");
+//		System.out.print(accountArray[count].getAno() +"\t\t"+ accountArray[count].getOwner() +"\t"+ accountArray[count].getBalance());
+//		System.out.println("");
+		
 		System.out.println("----------"+"\n"+"Account List"+"\n"+"----------");
 		System.out.println("Account"+"\t\t"+"Owner"+"\t"+"Deposit");
-		System.out.print(act.getAno() +"\t\t"+ act.getOwner() +"\t"+ act.getBalance());
-		System.out.println("");
+		for(int i=0; i < count; i++){						
+			System.out.print(accountArray[i].getAno() +"\t\t"+ accountArray[i].getOwner() +"\t"+ accountArray[i].getBalance());
+			System.out.println("");
+		}
 	}
 
 	private static void deposit() {
