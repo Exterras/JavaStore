@@ -7,6 +7,9 @@ public class BankApplication1 {
 	private static Scanner s = new Scanner(System.in);
 	private static int count = 0; // point
 
+	private static String ano; //create, deposit, withdraw
+	private static int balance, balanceTemp, accArrCnt; // deposit, withdraw 
+
 	public static void main(String[] args) {
 		boolean run = true;
 
@@ -15,8 +18,8 @@ public class BankApplication1 {
 				System.out.print("-");
 			}
 			System.out.println("");
-			System.out.println("1.Account Create" + "\t\t" + "2.Account List" + "\t\t" + "3.Deposit" + "\t"
-					+ "4.Withdraw" + "\t" + "5.Exit" + "\t");
+			System.out.println(
+					"1.Create" + "\t" + "2.List" + "\t\t" + "3.Deposit" + "\t" + "4.Withdraw" + "\t" + "5.Exit" + "\t");
 			for (int i = 0; i < 70; i++) {
 				System.out.print("-");
 			}
@@ -43,9 +46,8 @@ public class BankApplication1 {
 	}
 
 	private static void createAccount() { // write
-		String ano, owner;
-		int balance; // point
-
+		String owner;
+		
 		System.out.println("------------" + "\n" + "Account Create" + "\n" + "------------");
 		System.out.print("Account Number : ");
 		ano = s.next();
@@ -69,27 +71,56 @@ public class BankApplication1 {
 		}
 
 		System.out.println("----------" + "\n" + "Account List" + "\n" + "----------");
-		System.out.println("Account" + "\t\t" + "Owner" + "\t" + "Deposit");
+		System.out.println("Account" + "\t" + "Owner" + "\t" + "Deposit");
 		for (int i = 0; i < count; i++) {
-			System.out.print(accountArray[i].getAno() + "\t\t" + accountArray[i].getOwner() + "\t"
-					+ accountArray[i].getBalance());
+			System.out.print(
+					accountArray[i].getAno() + "\t" + accountArray[i].getOwner() + "\t" + accountArray[i].getBalance());
 			System.out.println("");
 		} // point
 	}
 
 	private static void deposit() { // write
-		// call findAccount
 		System.out.println("------" + "\n" + "Deposit" + "\n" + "------");
+		
+		System.out.print("Account Number : ");
+		ano = s.next();
+		
+		findAccount(ano);
+		
+		System.out.print("Deposit : ");
+		balance = s.nextInt();
+		
+		balance = balanceTemp + balance;
+		accountArray[accArrCnt].setBalance(balance);
+		
+		System.out.println("Deposit Successful!");
 	}
 
 	private static void withdraw() { // write
-		// call findAccount
 		System.out.println("-------" + "\n" + "Withdraw" + "\n" + "-------");
+		
+		System.out.print("Account Number : ");
+		ano = s.next();
+		
+		findAccount(ano);
+		
+		System.out.print("Withdraw : ");
+		balance = s.nextInt();
+		
+		balance = balanceTemp - balance;
+		accountArray[accArrCnt].setBalance(balance);
+		
+		System.out.println("Withdraw Successful!");
 	}
 
-	/*
-	 * private static Account findAccount(String ano){
-	 * 
-	 * }
-	 */
+	private static Account1 findAccount(String ano) {
+		for (int i = 0; i < count; i++) {
+			if (accountArray[i].getAno().equals(ano)) {
+				balanceTemp = accountArray[i].getBalance();
+				accArrCnt=i;
+				break;
+			}
+		}
+		return null;
+	}
 }
