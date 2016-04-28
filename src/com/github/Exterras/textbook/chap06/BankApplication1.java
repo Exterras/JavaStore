@@ -7,9 +7,6 @@ public class BankApplication1 {
 	private static Scanner s = new Scanner(System.in);
 	private static int count = 0; // point
 
-	private static String ano; //create, deposit, withdraw
-	private static int balance, balanceTemp, accArrCnt; // deposit, withdraw 
-
 	public static void main(String[] args) {
 		boolean run = true;
 
@@ -46,22 +43,33 @@ public class BankApplication1 {
 	}
 
 	private static void createAccount() { // write
-		String owner;
-		
-		System.out.println("------------" + "\n" + "Account Create" + "\n" + "------------");
+		String ano, owner;
+		int balance;
+
+		System.out.println("--------------" + "\n" + "Account Create" + "\n" + "--------------");
 		System.out.print("Account Number : ");
 		ano = s.next();
-
+	
+		if(findAccount(ano) != null){
+			System.out.println("Account Already Exist!");
+			ano = null; // clean variable
+			return; 
+		}
+		
 		System.out.print("Account Owner : ");
 		owner = s.next();
 
 		System.out.print("First Deposit : ");
 		balance = s.nextInt();
 
-		System.out.println("Account Created!");
-
-		accountArray[count] = new Account1(ano, owner, balance); // main point
-		count++; // sub point -> next create & show list
+		Account1 tempAcc = findAccount(ano);
+	//	if (tempAcc == null) {
+			accountArray[count] = new Account1(ano, owner, balance); // main point
+			System.out.println("Account Created!");
+			count++; // sub point -> next create & show list
+	//	} else {
+	//		System.out.println("Account Already Exist!");
+	//	}
 	}
 
 	private static void accountList() { // write
@@ -70,7 +78,7 @@ public class BankApplication1 {
 			return;
 		}
 
-		System.out.println("----------" + "\n" + "Account List" + "\n" + "----------");
+		System.out.println("------------" + "\n" + "Account List" + "\n" + "------------");
 		System.out.println("Account" + "\t" + "Owner" + "\t" + "Deposit");
 		for (int i = 0; i < count; i++) {
 			System.out.print(
@@ -80,47 +88,71 @@ public class BankApplication1 {
 	}
 
 	private static void deposit() { // write
-		System.out.println("------" + "\n" + "Deposit" + "\n" + "------");
-		
+		String ano;
+		int balance;
+
+		System.out.println("-------" + "\n" + "Deposit" + "\n" + "-------");
+
 		System.out.print("Account Number : ");
 		ano = s.next();
-		
-		findAccount(ano);
-		
-		System.out.print("Deposit : ");
-		balance = s.nextInt();
-		
-		balance = balanceTemp + balance;
-		accountArray[accArrCnt].setBalance(balance);
-		
-		System.out.println("Deposit Successful!");
+
+		Account1 tempAcc = findAccount(ano);
+
+		if (tempAcc != null) {
+			System.out.print("Deposit : ");
+			balance = s.nextInt();
+
+			balance = tempAcc.getBalance() + balance;
+			tempAcc.setBalance(balance);
+
+			System.out.println("Deposit Successful!");
+		} else {
+			System.out.println("No Have Account!");
+		}
 	}
 
 	private static void withdraw() { // write
-		System.out.println("-------" + "\n" + "Withdraw" + "\n" + "-------");
-		
+		String ano;
+		int balance;
+		System.out.println("--------" + "\n" + "Withdraw" + "\n" + "--------");
+
 		System.out.print("Account Number : ");
 		ano = s.next();
-		
-		findAccount(ano);
-		
-		System.out.print("Withdraw : ");
-		balance = s.nextInt();
-		
-		balance = balanceTemp - balance;
-		accountArray[accArrCnt].setBalance(balance);
-		
-		System.out.println("Withdraw Successful!");
+
+		Account1 tempAcc = findAccount(ano);
+
+		if (tempAcc != null) {
+			System.out.print("Withdraw : ");
+			balance = s.nextInt();
+			
+			if(tempAcc.getBalance() >= balance){
+				balance = tempAcc.getBalance() - balance;
+				tempAcc.setBalance(balance);
+				System.out.println("Withdraw Successful!");
+			} else {
+				System.out.println("No Sufficient Balance Your Have!");
+			}
+			
+		} else {
+			System.out.println("No Have Account!");
+		}
 	}
 
 	private static Account1 findAccount(String ano) {
-		for (int i = 0; i < count; i++) {
+		boolean isHere = false;
+		int i;
+		for (i = 0; i < count; i++) {
 			if (accountArray[i].getAno().equals(ano)) {
-				balanceTemp = accountArray[i].getBalance();
-				accArrCnt=i;
+				isHere = true;
 				break;
 			}
 		}
-		return null;
+
+		if (isHere) {
+			return accountArray[i];
+		} else {
+			return null;
+		}
+
 	}
 }
