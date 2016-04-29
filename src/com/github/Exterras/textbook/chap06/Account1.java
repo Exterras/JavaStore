@@ -4,11 +4,7 @@ public class Account1 {
 	private String ano; // accountNo
 	private String owner; // accountOwner
 	private int balance; // accountBalance
-	
-	public Account1(){
-		
-	}
-	
+
 	public Account1(String ano, String owner, int balance){
 		this.ano = ano;
 		this.owner = owner;
