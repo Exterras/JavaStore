@@ -4,63 +4,52 @@ import java.util.Scanner;
 
 public class TeamProgram {
 	// field
-	
+	boolean flag = true;
 	// constructor
-	
+
 	// method
-	public static void main(String[] args) {
-		System.out.println("조 편성 프로그램입니다.");
+	
+	void printMenu(){
+		System.out.println("수강생 조 관리 프로그램 입니다.");
+		System.out.println("원하시는 메뉴를 선택하세요. ");
 		
-		System.out.print("현재 수강생의 총 인원을 입력하세요 : ");
+		System.out.println("1.조 편성하기");
+		System.out.println("2.조 자리 변경하기");
+		System.out.println("3.편성된 조 보여주기");
+		System.out.println("4.편성된 조 초기화하기");
+		System.out.println("5.종료");
+	}
+	
+	int selectMenu(){
 		Scanner s = new Scanner(System.in);
-		int classNumber = s.nextInt(); 
 		
-		System.out.print("한 조당 최대로 편성되는 인원의 수를 입력하세요 : ");
-		int teamNumber = s.nextInt();
+		System.out.print("선택> ");
+		int selectMenu = s.nextInt();
+		return selectMenu;
+	}
+	
+	void switchMenu(int selectMenu){
+		TeamOrganizedProgram teamMake = new TeamOrganizedProgram();
 		
-		int teamIdx = 0;
-		if((classNumber%teamNumber) != 0){
-			teamIdx = (classNumber/teamNumber)+1; 
-		} else {
-			teamIdx = (classNumber/teamNumber); 
+		switch (selectMenu) {
+		case 1:
+			teamMake.organizedTeamMtd();
+			break;
+		case 5:
+			System.out.println("프로그램이 종료되었습니다.");
+			flag = false;
+			break;
+		default:
+			break;
 		}
-		// [조의개수] 총 인원을 조당 최대로 편성되는 인원의 수를 나누면 조의 개수가 나온다. 그것을 teamIdx에 넣었다.
-		// classNumber를 teamNumber를 나눳을때 나머지가 0이 아니면 그값에 1을 더하고 나머지는 1를 더하지 않는다.
+	}
+	
+	public static void main(String[] args) {
+		TeamProgram main = new TeamProgram();
 		
-		System.out.println(
-				"조에 편성될 인원의 이름을 모두 적으시오. "
-				+ "적을 수 있는 인원은 최대 "+ teamIdx +" 명입니다.");
-		// 조의 개수만큼 사람을 입력하라는 메시지를 출력한다.
-		
-		String[] arrTeamName = new String[teamIdx]; 
-		// [사람입력배열] 조의 개수[teamIdx]만큼 사람을 입력하는 배열을 arrTeamName 으로 만들었다.
-		
-		Scanner n = new Scanner(System.in);
-		for (int i = 0; i < arrTeamName.length; i++) {
-			arrTeamName[i] = n.nextLine();
-		} // 조의 개수만큼 사람을 입력하는 작업을 한다.
-		
-		
-		int[] arrRandomIdx = new int[arrTeamName.length];
-		// 순서대로 입력한 사람을 섞는 배열을 arrRandomIdx으로 만들었다. 
-		// 배열의 길이는 사람을 입력받은 수만큼[arrTeamName.length]으로 만들었다.
-		
-		for (int i = 0; i < arrTeamName.length; i++) {
-			arrRandomIdx[i] = (int)(Math.random()*arrTeamName.length);
-			for (int j = 0; j < i; j++) {
-				if(arrRandomIdx[i] == arrRandomIdx[j]){
-					i--;
-					break;
-				}
-			}
-		} 
-		// arrRandomIdx[i]번째마다  arrTeamName.length 만큼의 범위의 랜덤값을 넣어준다.
-		// 단 그 값이 [i]번째마다 다른값이 대입되도록 이중 for문을 사용하여 중복을 제거하였다.
-		
-		for (int i = 0; i < arrTeamName.length; i++) {
-			arrTeamName[i] = arrTeamName[arrRandomIdx[i]];
-			System.out.println((i+1)+"조 : "+ arrTeamName[i]);
+		while (main.flag) {
+			main.printMenu();
+			main.switchMenu(main.selectMenu());
 		}
-		// (Point) 랜덤함수로 섞은 arrRandomIdx[i]의 값을 arrTeamName의 인덱스로 활용하여 arrTeamName[i]번째마다 인덱스를 섞는다.
 	}
 }
