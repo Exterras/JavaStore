@@ -25,6 +25,7 @@ public class TeamProgram {
 		
 		System.out.print("¼±ÅÃ> ");
 		int selectMenu = s.nextInt();
+		System.out.println("");
 		return selectMenu;
 	}
 	
@@ -50,6 +51,7 @@ public class TeamProgram {
 		while (main.flag) {
 			main.printMenu();
 			main.switchMenu(main.selectMenu());
+			System.out.println("");
 		}
 	}
 }
